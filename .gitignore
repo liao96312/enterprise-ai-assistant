@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+pytest-cache-files-*/
+.coverage
+htmlcov/
+.env
+.venv/
+venv/
+logs/
+*.log
+*.docx
+data/chroma/
+data/raw/*
+!data/raw/.gitkeep
+dist/
+build/

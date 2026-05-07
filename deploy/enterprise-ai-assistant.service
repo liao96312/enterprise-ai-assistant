@@ -1,0 +1,16 @@
+[Unit]
+Description=Enterprise AI Assistant
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/enterprise-ai-assistant
+EnvironmentFile=/opt/enterprise-ai-assistant/.env
+ExecStart=/opt/enterprise-ai-assistant/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --proxy-headers
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
