@@ -7,294 +7,257 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <style>
       :root {
-        --bg: #07141b;
-        --panel: rgba(255, 255, 255, 0.88);
-        --panel-strong: rgba(255, 255, 255, 0.96);
-        --ink: #17212b;
-        --text: #2a3844;
-        --muted: #697784;
-        --line: rgba(203, 214, 224, 0.78);
-        --blue: #176b87;
-        --blue-dark: #0f566d;
-        --cyan: #4fb2c8;
-        --amber: #d58a42;
-        --good: #2f7d5c;
-        --shadow: 0 24px 70px rgba(4, 18, 28, 0.28);
+        --ink: #111318;
+        --text: #2b3138;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --soft: #f5f7fa;
+        --panel: #ffffff;
+        --blue: #0071e3;
+        --blue-dark: #005bb5;
+        --green: #248a5a;
+        --shadow: 0 24px 70px rgba(17, 24, 39, 0.10);
       }
 
       * { box-sizing: border-box; }
 
       body {
         margin: 0;
-        min-height: 100vh;
         color: var(--text);
-        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
-        background:
-          linear-gradient(90deg, rgba(5, 17, 24, 0.90), rgba(7, 20, 27, 0.54) 42%, rgba(238, 244, 248, 0.84)),
-          url("/assets/enterprise-ai-bg.png") center / cover fixed,
-          var(--bg);
+        background: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
       }
 
-      button, input, select {
-        font: inherit;
-      }
+      button, input, select { font: inherit; }
 
       button {
         min-height: 42px;
         border: 0;
-        border-radius: 8px;
-        padding: 0 14px;
+        border-radius: 999px;
+        padding: 0 18px;
         cursor: pointer;
-        font-weight: 700;
-        transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+        font-weight: 650;
+        transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
       }
 
-      button:hover {
-        transform: translateY(-1px);
-      }
-
-      button:disabled {
-        cursor: not-allowed;
-        opacity: 0.62;
-        transform: none;
-      }
+      button:hover { transform: translateY(-1px); }
+      button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
       .primary {
-        background: var(--blue);
         color: #fff;
-        box-shadow: 0 12px 24px rgba(23, 107, 135, 0.22);
+        background: var(--blue);
+        box-shadow: 0 12px 26px rgba(0, 113, 227, .22);
       }
 
       .primary:hover { background: var(--blue-dark); }
 
       .secondary {
-        background: #e9eef3;
-        color: #21313d;
+        color: var(--blue);
+        background: rgba(0, 113, 227, .09);
       }
 
-      .ghost {
-        background: rgba(255, 255, 255, 0.11);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.14);
+      .plain {
+        color: var(--text);
+        background: #f1f3f5;
       }
 
-      .app-shell {
-        min-height: 100vh;
-        display: grid;
-        grid-template-columns: 330px minmax(0, 1fr);
-      }
-
-      .sidebar {
-        min-height: 100vh;
-        padding: 22px;
-        color: #eef8fa;
-        display: grid;
-        grid-template-rows: auto auto auto 1fr;
-        align-content: start;
-        gap: 16px;
-        background: rgba(8, 25, 34, 0.78);
-        backdrop-filter: blur(18px);
-        border-right: 1px solid rgba(255, 255, 255, 0.12);
+      .topnav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        height: 54px;
+        padding: 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, .78);
+        backdrop-filter: saturate(180%) blur(22px);
+        border-bottom: 1px solid rgba(0, 0, 0, .06);
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
-        min-width: 0;
+        gap: 10px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 700;
       }
 
       .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 8px;
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
         display: grid;
         place-items: center;
         color: #fff;
-        font-weight: 900;
-        background: linear-gradient(135deg, var(--cyan), var(--blue) 48%, var(--amber));
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
-      }
-
-      .brand h1 {
-        margin: 0;
-        font-size: 19px;
-        line-height: 1.1;
-        letter-spacing: 0;
-      }
-
-      .brand p {
-        margin: 4px 0 0;
-        color: #b8ccd3;
         font-size: 12px;
+        background: linear-gradient(135deg, #79d6e8, #0071e3 54%, #d58a42);
       }
 
-      .side-card {
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 14px;
-      }
-
-      .side-card h2 {
-        margin: 0 0 12px;
-        font-size: 14px;
-        letter-spacing: 0;
-      }
-
-      .metrics {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .metric {
-        border-radius: 8px;
-        background: rgba(0, 0, 0, 0.17);
-        padding: 10px;
-      }
-
-      .metric span {
-        display: block;
-        color: #b5c8d0;
-        font-size: 12px;
-      }
-
-      .metric strong {
-        display: block;
-        margin-top: 2px;
-        color: #fff;
-        font-size: 22px;
-      }
-
-      .status-line {
-        margin-top: 12px;
-        color: #c9d9df;
-        font-size: 12px;
-        line-height: 1.65;
-      }
-
-      .pipeline {
-        display: grid;
-        gap: 8px;
-      }
-
-      .step {
-        display: grid;
-        grid-template-columns: 26px minmax(0, 1fr);
-        gap: 8px;
-        align-items: center;
-        color: #d7e5ea;
-        font-size: 13px;
-      }
-
-      .dot {
-        width: 24px;
-        height: 24px;
-        border-radius: 999px;
-        display: grid;
-        place-items: center;
-        background: rgba(79, 178, 200, 0.18);
-        color: #9ee4ef;
-        border: 1px solid rgba(158, 228, 239, 0.25);
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .file-input,
-      .text-input,
-      .select-input {
-        width: 100%;
-        min-height: 42px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 0 12px;
-        color: var(--text);
-        background: rgba(255, 255, 255, 0.96);
-      }
-
-      .file-input {
-        padding: 9px;
-        color: #d7e8ee;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px dashed rgba(255, 255, 255, 0.30);
-      }
-
-      .grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-      }
-
-      .workspace {
-        min-width: 0;
-        min-height: 100vh;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
-      }
-
-      .topbar {
-        padding: 20px 26px;
+      .nav-links {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .title-card {
-        border: 1px solid rgba(255, 255, 255, 0.36);
-        border-radius: 8px;
-        padding: 14px 16px;
-        background: rgba(255, 255, 255, 0.74);
-        backdrop-filter: blur(16px);
-        box-shadow: var(--shadow);
-      }
-
-      .title-card h2 {
-        margin: 0;
-        color: var(--ink);
-        font-size: 21px;
-        letter-spacing: 0;
-      }
-
-      .title-card p {
-        margin: 5px 0 0;
+        gap: 20px;
         color: var(--muted);
         font-size: 13px;
       }
 
-      .content-grid {
-        min-height: 0;
-        padding: 0 26px 20px;
+      .hero {
+        min-height: calc(100vh - 54px);
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 380px;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 30%, rgba(117, 198, 229, .22), transparent 34%),
+          linear-gradient(180deg, #fff, #f7f9fb 76%, #eef3f7);
+      }
+
+      .hero-copy {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 72px 24px 18px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: var(--blue);
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .hero h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(48px, 7vw, 92px);
+        line-height: .98;
+        letter-spacing: 0;
+        font-weight: 800;
+      }
+
+      .hero p {
+        max-width: 720px;
+        margin: 20px auto 0;
+        color: #424952;
+        font-size: clamp(19px, 2.4vw, 28px);
+        line-height: 1.35;
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .hero-visual {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 4px 24px 34px;
+      }
+
+      .hero-visual img {
+        width: min(980px, 94vw);
+        max-height: 46vh;
+        object-fit: contain;
+        filter: drop-shadow(0 34px 46px rgba(30, 54, 82, .18));
+      }
+
+      .workspace {
+        background: #f5f7fa;
+        padding: 42px 28px 56px;
+      }
+
+      .workspace-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
         gap: 18px;
       }
 
-      .panel {
-        min-height: 0;
-        border: 1px solid rgba(255, 255, 255, 0.48);
-        border-radius: 8px;
+      .section-title {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 0 4px;
+      }
+
+      .section-title h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(30px, 4vw, 48px);
+        letter-spacing: 0;
+      }
+
+      .section-title p {
+        max-width: 520px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .status-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2fr;
+        gap: 14px;
+      }
+
+      .stat, .panel {
         background: var(--panel);
-        backdrop-filter: blur(18px);
+        border: 1px solid var(--line);
+        border-radius: 8px;
         box-shadow: var(--shadow);
       }
 
-      .chat-panel {
+      .stat {
+        padding: 18px;
+      }
+
+      .stat span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .stat strong {
+        display: block;
+        margin-top: 6px;
+        color: var(--ink);
+        font-size: 32px;
+      }
+
+      .stat.wide strong {
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .main-grid {
         display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 18px;
+      }
+
+      .chat-panel {
+        min-height: 620px;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
       }
 
       .panel-head {
-        padding: 16px 18px;
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
+        padding: 18px 20px;
         border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
       }
 
       .panel-head strong {
         color: var(--ink);
+        font-size: 18px;
       }
 
       .mode {
@@ -304,34 +267,33 @@
 
       .messages {
         overflow: auto;
-        padding: 18px;
+        padding: 22px;
         display: flex;
         flex-direction: column;
         gap: 14px;
       }
 
       .message {
-        max-width: min(760px, 90%);
+        max-width: min(740px, 92%);
         display: grid;
         gap: 6px;
       }
 
-      .message.user {
-        align-self: flex-end;
-      }
+      .message.user { align-self: flex-end; }
 
       .bubble {
+        padding: 14px 16px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        padding: 13px 14px;
+        background: #f7f9fb;
         line-height: 1.65;
         white-space: pre-wrap;
-        background: rgba(247, 250, 252, 0.96);
       }
 
       .user .bubble {
-        background: #dcf0f5;
-        border-color: #aed4dd;
+        color: #fff;
+        background: var(--blue);
+        border-color: var(--blue);
       }
 
       .meta {
@@ -339,22 +301,29 @@
         font-size: 12px;
       }
 
-      .settings-panel {
+      .composer {
         padding: 16px;
+        border-top: 1px solid var(--line);
         display: grid;
-        gap: 12px;
+        grid-template-columns: 130px minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      .side-stack {
+        display: grid;
+        gap: 18px;
         align-content: start;
       }
 
-      .settings-panel h3 {
-        margin: 0;
-        color: var(--ink);
-        font-size: 16px;
+      .card-body {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
       }
 
       .field {
         display: grid;
-        gap: 6px;
+        gap: 7px;
       }
 
       .field label {
@@ -363,146 +332,126 @@
         font-weight: 800;
       }
 
+      .text-input, .select-input, .file-input {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid #d9e1e8;
+        border-radius: 8px;
+        padding: 0 12px;
+        color: var(--text);
+        background: #fff;
+      }
+
+      .file-input {
+        padding: 9px;
+      }
+
       .hint {
         color: var(--muted);
         font-size: 12px;
-        line-height: 1.5;
+        line-height: 1.45;
       }
 
-      .composer {
-        padding: 0 26px 24px;
-      }
-
-      .composer-inner {
-        border: 1px solid rgba(255, 255, 255, 0.46);
-        border-radius: 8px;
-        padding: 12px;
+      .grid-2 {
         display: grid;
-        grid-template-columns: 150px minmax(0, 1fr) auto;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.82);
-        backdrop-filter: blur(18px);
-        box-shadow: var(--shadow);
-      }
-
-      .actions {
-        display: flex;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
       }
 
-      @media (max-width: 1120px) {
-        .content-grid {
-          grid-template-columns: 1fr;
-        }
+      .pipeline {
+        display: grid;
+        gap: 9px;
       }
 
-      @media (max-width: 840px) {
-        .app-shell {
-          grid-template-columns: 1fr;
-        }
+      .step {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 9px;
+        align-items: center;
+        color: var(--text);
+        font-size: 13px;
+      }
 
-        .sidebar {
-          min-height: auto;
-        }
+      .dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: var(--blue);
+        background: rgba(0, 113, 227, .10);
+        font-size: 12px;
+        font-weight: 800;
+      }
 
-        .topbar,
-        .content-grid,
-        .composer {
-          padding-left: 16px;
-          padding-right: 16px;
-        }
+      @media (max-width: 1050px) {
+        .status-strip, .main-grid { grid-template-columns: 1fr; }
+        .chat-panel { min-height: 560px; }
+      }
 
-        .topbar {
-          align-items: stretch;
-          flex-direction: column;
-        }
-
-        .composer-inner {
-          grid-template-columns: 1fr;
-        }
-
-        .actions {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .message {
-          max-width: 100%;
-        }
+      @media (max-width: 720px) {
+        .nav-links { display: none; }
+        .hero-copy { padding-top: 48px; }
+        .hero-visual img { max-height: 35vh; }
+        .section-title { align-items: start; flex-direction: column; }
+        .composer { grid-template-columns: 1fr; }
+        .message { max-width: 100%; }
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <div class="app-shell">
-        <aside class="sidebar">
-          <div class="brand">
-            <div class="brand-mark">AI</div>
-            <div>
-              <h1>Enterprise Assistant</h1>
-              <p>Vue · LangChain · RAG</p>
-            </div>
+      <nav class="topnav">
+        <div class="brand">
+          <span class="brand-mark">AI</span>
+          <span>Enterprise Assistant</span>
+        </div>
+        <div class="nav-links">
+          <span>LangChain</span>
+          <span>RAG</span>
+          <span>国产模型</span>
+          <span>企业部署</span>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Enterprise AI Assistant</div>
+          <h1>企业知识，一问即答。</h1>
+          <p>上传制度、手册和业务资料，使用 LangChain RAG 与国产大模型，构建企业自己的智能助手。</p>
+          <div class="hero-actions">
+            <button class="primary" type="button" @click="scrollToWorkspace">开始配置</button>
+            <button class="secondary" type="button" @click="useSample">试问制度</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="/assets/enterprise-ai-hero.png" alt="Enterprise AI visual" />
+        </div>
+      </section>
+
+      <main class="workspace" ref="workspace">
+        <div class="workspace-inner">
+          <div class="section-title">
+            <h2>AI 工作台</h2>
+            <p>把模型配置、知识库入库和问答演示放在同一个界面里，适合本地演示，也能直接部署到企业服务器。</p>
           </div>
 
-          <section class="side-card">
-            <h2>知识库状态</h2>
-            <div class="metrics">
-              <div class="metric">
-                <span>原始文档</span>
-                <strong>{{ status.raw_documents }}</strong>
-              </div>
-              <div class="metric">
-                <span>向量片段</span>
-                <strong>{{ status.vector_chunks }}</strong>
-              </div>
+          <section class="status-strip">
+            <div class="stat">
+              <span>原始文档</span>
+              <strong>{{ status.raw_documents }}</strong>
             </div>
-            <div class="status-line">
-              模型：{{ status.model_provider || '-' }}/{{ status.chat_model || '-' }}<br />
-              向量库：{{ status.vector_store || '-' }} · Embedding：{{ status.embedding_provider || '-' }}
+            <div class="stat">
+              <span>向量片段</span>
+              <strong>{{ status.vector_chunks }}</strong>
+            </div>
+            <div class="stat wide">
+              <span>当前模型</span>
+              <strong>{{ status.model_provider || '-' }} / {{ status.chat_model || '-' }}<br />{{ status.vector_store || '-' }} · {{ status.embedding_provider || '-' }}</strong>
             </div>
           </section>
 
-          <section class="side-card pipeline">
-            <h2>LangChain Pipeline</h2>
-            <div class="step" v-for="(step, index) in pipeline" :key="step">
-              <span class="dot">{{ index + 1 }}</span>
-              <span>{{ step }}</span>
-            </div>
-          </section>
-
-          <section class="side-card">
-            <h2>资料上传</h2>
-            <div class="field">
-              <input class="file-input" type="file" accept=".txt,.md,.pdf,.docx" @change="onFileChange" />
-            </div>
-            <div class="grid-2" style="margin-top: 10px">
-              <button class="primary" type="button" :disabled="busy.upload" @click="uploadFile">上传</button>
-              <button class="ghost" type="button" :disabled="busy.ingest" @click="ingest">重建</button>
-            </div>
-          </section>
-
-          <section class="side-card">
-            <h2>访问令牌</h2>
-            <div class="field">
-              <input class="text-input" type="password" v-model="adminToken" placeholder="启用鉴权时填写 Admin Token" />
-              <button class="ghost" type="button" @click="saveToken">保存到本机浏览器</button>
-            </div>
-          </section>
-        </aside>
-
-        <main class="workspace">
-          <header class="topbar">
-            <div class="title-card">
-              <h2>企业智能助手工作台</h2>
-              <p>上传资料、选择国产模型 API，并用 RAG 回答企业知识问题。</p>
-            </div>
-            <div class="actions">
-              <button class="secondary" type="button" @click="refreshAll">刷新状态</button>
-              <button class="primary" type="button" @click="useSample">试问制度</button>
-            </div>
-          </header>
-
-          <section class="content-grid">
+          <section class="main-grid">
             <div class="panel chat-panel">
               <div class="panel-head">
                 <strong>对话</strong>
@@ -514,65 +463,89 @@
                   <div class="meta" v-if="message.meta">{{ message.meta }}</div>
                 </div>
               </div>
+              <form class="composer" @submit.prevent="sendMessage">
+                <input class="text-input" v-model="sessionId" aria-label="Session ID" />
+                <input class="text-input" v-model="draft" placeholder="输入问题，例如：年假制度怎么规定？" />
+                <div class="grid-2">
+                  <button class="plain" type="button" @click="clearChat">清屏</button>
+                  <button class="primary" type="submit" :disabled="busy.chat">发送</button>
+                </div>
+              </form>
             </div>
 
-            <aside class="panel settings-panel">
-              <h3>模型配置</h3>
-              <div class="field">
-                <label>模型提供商</label>
-                <select class="select-input" v-model="modelForm.model_provider" @change="applyProviderPreset">
-                  <option v-for="provider in providers" :key="provider.name" :value="provider.name">
-                    {{ provider.name }}
-                  </option>
-                </select>
+            <aside class="side-stack">
+              <div class="panel">
+                <div class="panel-head"><strong>模型配置</strong></div>
+                <div class="card-body">
+                  <div class="field">
+                    <label>模型提供商</label>
+                    <select class="select-input" v-model="modelForm.model_provider" @change="applyProviderPreset">
+                      <option v-for="provider in providers" :key="provider.name" :value="provider.name">{{ provider.name }}</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>API Key</label>
+                    <input class="text-input" type="password" v-model="modelForm.api_key" placeholder="留空则不覆盖已保存 Key" />
+                    <div class="hint">{{ apiKeyHint }}</div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="field">
+                      <label>Base URL</label>
+                      <input class="text-input" v-model="modelForm.base_url" :placeholder="placeholders.base_url" />
+                    </div>
+                    <div class="field">
+                      <label>聊天模型</label>
+                      <input class="text-input" v-model="modelForm.chat_model" :placeholder="placeholders.chat_model" />
+                    </div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="field">
+                      <label>Embedding</label>
+                      <select class="select-input" v-model="modelForm.embedding_provider">
+                        <option value="auto">auto</option>
+                        <option value="api">api</option>
+                        <option value="local">local</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label>Embedding 模型</label>
+                      <input class="text-input" v-model="modelForm.embedding_model" :placeholder="placeholders.embedding_model" />
+                    </div>
+                  </div>
+                  <button class="primary" type="button" :disabled="busy.settings" @click="saveSettings">保存模型配置</button>
+                  <div class="hint">{{ settingsHint }}</div>
+                </div>
               </div>
-              <div class="field">
-                <label>API Key</label>
-                <input class="text-input" type="password" v-model="modelForm.api_key" placeholder="留空则不覆盖已保存 Key" />
-                <div class="hint">{{ apiKeyHint }}</div>
+
+              <div class="panel">
+                <div class="panel-head"><strong>资料与权限</strong></div>
+                <div class="card-body">
+                  <input class="file-input" type="file" accept=".txt,.md,.pdf,.docx" @change="onFileChange" />
+                  <div class="grid-2">
+                    <button class="secondary" type="button" :disabled="busy.upload" @click="uploadFile">上传资料</button>
+                    <button class="primary" type="button" :disabled="busy.ingest" @click="ingest">重建向量库</button>
+                  </div>
+                  <div class="field">
+                    <label>访问令牌</label>
+                    <input class="text-input" type="password" v-model="adminToken" placeholder="启用鉴权时填写 Admin Token" />
+                    <button class="plain" type="button" @click="saveToken">保存到本机浏览器</button>
+                  </div>
+                </div>
               </div>
-              <div class="field">
-                <label>Base URL</label>
-                <input class="text-input" v-model="modelForm.base_url" :placeholder="placeholders.base_url" />
+
+              <div class="panel">
+                <div class="panel-head"><strong>LangChain Pipeline</strong></div>
+                <div class="card-body pipeline">
+                  <div class="step" v-for="(step, index) in pipeline" :key="step">
+                    <span class="dot">{{ index + 1 }}</span>
+                    <span>{{ step }}</span>
+                  </div>
+                </div>
               </div>
-              <div class="field">
-                <label>聊天模型</label>
-                <input class="text-input" v-model="modelForm.chat_model" :placeholder="placeholders.chat_model" />
-              </div>
-              <div class="field">
-                <label>Embedding</label>
-                <select class="select-input" v-model="modelForm.embedding_provider">
-                  <option value="auto">auto</option>
-                  <option value="api">api</option>
-                  <option value="local">local</option>
-                </select>
-                <div class="hint">DeepSeek/Kimi 可先用 local；Qwen/硅基流动可用 api。</div>
-              </div>
-              <div class="field">
-                <label>Embedding API Key</label>
-                <input class="text-input" type="password" v-model="modelForm.embedding_api_key" placeholder="留空则不覆盖" />
-              </div>
-              <div class="field">
-                <label>Embedding 模型</label>
-                <input class="text-input" v-model="modelForm.embedding_model" :placeholder="placeholders.embedding_model" />
-              </div>
-              <button class="primary" type="button" :disabled="busy.settings" @click="saveSettings">保存模型配置</button>
-              <div class="hint">{{ settingsHint }}</div>
             </aside>
           </section>
-
-          <form class="composer" @submit.prevent="sendMessage">
-            <div class="composer-inner">
-              <input class="text-input" v-model="sessionId" aria-label="Session ID" />
-              <input class="text-input" v-model="draft" placeholder="输入问题，例如：年假制度怎么规定？" />
-              <div class="actions">
-                <button class="secondary" type="button" @click="clearChat">清屏</button>
-                <button class="primary" type="submit" :disabled="busy.chat">发送</button>
-              </div>
-            </div>
-          </form>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
 
     <script>
@@ -585,10 +558,10 @@
             draft: "",
             selectedFile: null,
             adminToken: localStorage.getItem("enterprise_admin_token") || "",
-            status: {},
+            status: { raw_documents: 0, vector_chunks: 0 },
             providers: [],
             placeholders: {
-              base_url: "可留空使用提供商默认地址",
+              base_url: "可留空使用默认地址",
               chat_model: "可留空使用默认模型",
               embedding_model: "可留空使用本地 Embedding",
             },
@@ -603,12 +576,7 @@
             },
             apiKeyHint: "正在读取配置...",
             settingsHint: "",
-            busy: {
-              chat: false,
-              upload: false,
-              ingest: false,
-              settings: false,
-            },
+            busy: { chat: false, upload: false, ingest: false, settings: false },
             messages: [
               {
                 id: 1,
@@ -647,7 +615,7 @@
             this.messages.push({ id: Date.now() + Math.random(), role, content, meta });
             this.$nextTick(() => {
               const node = document.querySelector(".messages");
-              node.scrollTop = node.scrollHeight;
+              if (node) node.scrollTop = node.scrollHeight;
             });
           },
           async refreshAll() {
@@ -773,10 +741,14 @@
           },
           useSample() {
             this.draft = "年假制度怎么规定？";
+            this.scrollToWorkspace();
           },
           clearChat() {
             this.messages = [];
             this.pushMessage("assistant", "对话已清空，可以继续提问。", "系统");
+          },
+          scrollToWorkspace() {
+            this.$refs.workspace.scrollIntoView({ behavior: "smooth", block: "start" });
           },
         },
       }).mount("#app");
