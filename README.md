@@ -21,6 +21,7 @@
 - 向量库重建：`POST /ingest`
 - 知识库状态：`GET /knowledge/status`
 - 会话记忆：按 `session_id` 隔离
+- 前端：标准 Vue 3 + Vite 工程，源码在 `frontend/`，构建产物输出到 `web/`
 
 ## 快速启动
 
@@ -37,6 +38,25 @@ uvicorn app.main:app --reload
 ```text
 http://127.0.0.1:8000
 ```
+
+## 前端开发
+
+前端使用 Vue 3 + Vite：
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+构建静态产物到后端的 `web/` 目录：
+
+```powershell
+cd frontend
+npm run build
+```
+
+后端会通过 FastAPI 直接托管 `web/` 目录，因此生产部署不需要单独启动前端服务。
 
 ## 企业级部署配置
 
@@ -213,5 +233,8 @@ scripts/
 tests/
   test_api.py   基础接口测试
 web/
-  index.html    演示前端
+  index.html    Vue/Vite 构建产物
+frontend/
+  src/          Vue 3 源码
+  package.json  前端依赖与脚本
 ```
